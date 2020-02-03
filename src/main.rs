@@ -43,7 +43,7 @@ fn main() -> Result<(), io::Error> {
                     let path = entry.path();
                     match hash_file(path, &mut hash) {
                         Ok(_) => {
-                            write!(f, "{},{}\n", path.display(), hex::encode(hash))?;
+                            write!(f, "{},{}\n", hex::encode(hash), path.display())?;
                         },
                         Err(_) => eprintln!("failed to access: {}", path.display())
                     }
