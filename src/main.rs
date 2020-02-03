@@ -3,7 +3,6 @@ use walkdir::WalkDir;
 use std::path::Path;
 use std::fs;
 use std::io;
-use std::io::Read;
 use sha2::{Sha256, Digest};
 use hex;
 
@@ -46,11 +45,9 @@ fn main() {
 }
 
 fn hash_file(path: &Path, output: &mut[u8]) -> Result<(), io::Error> {
-    let mut buffer = Vec::new();
-    let mut file = fs::File::open(path)?;
-    file.read_to_end(&mut buffer)?;
+    let file_content = fs::read(path)?;
 
-    let hash = Sha256::digest(buffer.as_slice());
+    let hash = Sha256::digest(file_content.as_slice());
     output.clone_from_slice(hash.as_slice());
 
     Ok(())
